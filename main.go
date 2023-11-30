@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"time"
 
 	"gorm.io/driver/sqlite"
@@ -87,12 +89,20 @@ func getBookInfo() (string, string, int) {
 	var author string
 	var page_count int
 
+	// create scanner object (needed for reading multiple words)
+	scanner := bufio.NewScanner(os.Stdin)
+
 	fmt.Print("\nTitle: ")
-	fmt.Scanln(&title)
+	scanner.Scan()
+	title = scanner.Text()
+
 	fmt.Print("Author: ")
-	fmt.Scanln(&author)
+	scanner.Scan()
+	author = scanner.Text()
+
 	fmt.Print("Page Count: ")
-	fmt.Scanln(&page_count)
+	fmt.Scan(&page_count)
+
 	fmt.Println("")
 
 	return title, author, page_count
