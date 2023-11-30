@@ -30,6 +30,19 @@ func processCommand(command string, db *gorm.DB) {
 	case "list":
 		listBooks(db)
 
+	case "delete":
+		// check for book name
+		if len(parsed_command) < 2 {
+			// print error message
+			fmt.Println("Missing book name. Try 'delete <book>'.")
+		} else if parsed_command[2] != "" {
+			// print error message
+			fmt.Println("Too many arguments. Try 'delete <book>'.")
+		} else {
+			// delete book
+			deleteBook(db, parsed_command[1])
+		}
+
 	default:
 		// print error message
 		fmt.Println("Invalid command. Type 'help' for a list of commands.")
@@ -127,4 +140,36 @@ func listBooks(db *gorm.DB) {
 		fmt.Printf("%d: %s\n", i + 1, book.Title)
 	}
 	fmt.Println("")
+}
+
+// delete book function
+func deleteBook(db *gorm.DB, book_name string) {
+
+	// init book object
+	var book Book
+
+	// get book from database
+	result := db.Where("title = ?", book_name).First(&book)
+
+	// check for errors
+	if result.Error != nil {
+		// print error message
+		fmt.Println("\nUnable to find book.")
+		fmt.Println("")
+		return
+	}
+
+	// delete book from database
+	result = db.Delete(&book)
+
+	// check for errors
+	if result.Error == nil {
+		// print success message
+		fmt.Println("\nBook deleted successfully!")
+		fmt.Println("")
+	} else {
+		// print error message
+		fmt.Println("\nUnable to delete book.")
+		fmt.Println("")
+	}
 }
