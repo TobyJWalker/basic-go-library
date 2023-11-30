@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -56,6 +57,19 @@ func processCommand(command string, db *gorm.DB) {
 			viewBook(db, parsed_command[1])
 		}
 
+	case "checkout":
+		// check for book name
+		if len(parsed_command) < 2 {
+			// print error message
+			fmt.Println("Missing book name. Try 'checkout <book>'.")
+		} else if parsed_command[2] != "" {
+			// print error message
+			fmt.Println("Too many arguments. Try 'checkout <book>'.")
+		} else {
+			// checkout book
+			checkoutBook(db, parsed_command[1])
+		}
+
 	default:
 		// print error message
 		fmt.Println("Invalid command. Type 'help' for a list of commands.")
@@ -88,8 +102,8 @@ func help() {
 	fmt.Println("add - add a book")
 	fmt.Println("view <book> - view book information")
 	fmt.Println("delete <book> - delete a book")
-	fmt.Println("checkout - checkout a book")
-	fmt.Println("checkin - checkin a book")
+	fmt.Println("checkout <book> - check out a book")
+	fmt.Println("checkin <book> - check in a book")
 	fmt.Println("exit - exit the program")
 	fmt.Println("")
 }
@@ -227,5 +241,52 @@ func viewBook(db *gorm.DB, book_name string) {
 	}
 
 	fmt.Println("")
+
+}
+
+// checkout book function
+func checkoutBook(db *gorm.DB, book_name string) {
+
+	// init book object
+	var book Book
+
+	// get book from database
+	result := db.Where("title = ?", book_name).First(&book)
+
+	// check for errors
+	if result.Error != nil {
+		// print error message
+		fmt.Println("\nUnable to find book.")
+		fmt.Println("")
+		return
+	}
+
+	// check if book is already checked out
+	if book.CheckedOut {
+		// print error message
+		fmt.Println("\nBook is already checked out.")
+		fmt.Println("")
+		return
+	}
+
+	// set checked out status
+	book.CheckedOut = true
+
+	// set checked out date
+	book.CheckedOutDate = time.Now()
+
+	// update book in database
+	result = db.Save(&book)
+
+	// check for errors
+	if result.Error == nil {
+		// print success message
+		fmt.Println("\nBook checked out successfully!")
+		fmt.Println("")
+	} else {
+		// print error message
+		fmt.Println("\nUnable to check out book.")
+		fmt.Println("")
+	}
 
 }
