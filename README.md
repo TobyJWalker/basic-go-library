@@ -8,6 +8,14 @@ This project is a CLI app which can perform CRUD operations on a basic in-memory
 - SQlite
 
 
+## Installing dependencies
+
+```bash
+go get -u gorm.io/drivers/sqlite
+go get -u gorm.io/gorm
+```
+
+
 ## How to run
 
 ```bash
