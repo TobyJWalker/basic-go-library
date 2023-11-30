@@ -77,8 +77,11 @@ func welcome() {
 // get user command function
 func getCommand() string {
 	var command string
+	scanner := bufio.NewScanner(os.Stdin)
+
 	fmt.Print(">> ")
-	fmt.Scanln(&command)
+	scanner.Scan()
+	command = scanner.Text()
 
 	return command
 }
