@@ -68,7 +68,7 @@ func connectDB() *gorm.DB {
 // welcome function
 func welcome() {
 	fmt.Printf("\nWelcome to %s!", LIBRARY_NAME)
-	fmt.Println("\nIn this library, you can view, add, edit, and delete books.")
+	fmt.Println("\nIn this library, you can view, add and delete books.")
 	fmt.Println("\nWe hope you enjoy your stay!")
 	fmt.Println("\nType 'help' for a list of commands.")
 	fmt.Println("")
