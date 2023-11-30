@@ -14,12 +14,12 @@ import (
 type Book struct {
 	gorm.Model
 
-	title string
-	author string
-	page_count int
+	Title string
+	Author string
+	PageCount int
 
-	checked_out bool
-	checked_out_date time.Time
+	CheckedOut bool
+	CheckedOutDate time.Time
 }
 
 const LIBRARY_NAME string = "Go Library"
