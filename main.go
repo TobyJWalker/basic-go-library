@@ -39,8 +39,8 @@ func main() {
 		// get command
 		command := getCommand()
 
-		// display command
-		fmt.Println(command)
+		// process the command
+		processCommand(command)
 	}
 
 }
