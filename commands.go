@@ -34,7 +34,7 @@ func parseCommand(command string) [3]string {
 	split_command := strings.Split(command, " ")
 	
 	// copy words into array
-	copy(command_words[:], split_command[:3])
+	copy(command_words[:], split_command)
 
 	// return array
 	return command_words
@@ -44,8 +44,8 @@ func parseCommand(command string) [3]string {
 func help() {
 	
 	// print help message
-	fmt.Println("Available commands:")
-	fmt.Println("help - display this message")
+	fmt.Println("\nAvailable commands:")
+	fmt.Println("\nhelp - display this message")
 	fmt.Println("list - list all books")
 	fmt.Println("create - add a book")
 	fmt.Println("view <book> - view book information")
@@ -53,4 +53,5 @@ func help() {
 	fmt.Println("checkout - checkout a book")
 	fmt.Println("checkin - checkin a book")
 	fmt.Println("exit - exit the program")
+	fmt.Println("")
 }
