@@ -27,6 +27,9 @@ func processCommand(command string, db *gorm.DB) {
 	case "add":
 		addBook(db)
 
+	case "list":
+		listBooks(db)
+
 	default:
 		// print error message
 		fmt.Println("Invalid command. Type 'help' for a list of commands.")
@@ -89,9 +92,10 @@ func addBook(db *gorm.DB) {
 
 	// create book object
 	book := Book{
-		title: book_title, 
-		author: book_author, 
-		page_count: book_pages,
+		Title: book_title, 
+		Author: book_author, 
+		PageCount: book_pages,
+		CheckedOut: false,
 	}
 
 	// add book to database
@@ -106,4 +110,21 @@ func addBook(db *gorm.DB) {
 		fmt.Println("")
 	}
 
+}
+
+// list books function
+func listBooks(db *gorm.DB) {
+	
+	// init book array
+	var books []Book
+
+	// get books from database
+	db.Find(&books)
+
+	// print books
+	fmt.Println("\nBooks:")
+	for i, book := range books {
+		fmt.Printf("%d: %s\n", i + 1, book.Title)
+	}
+	fmt.Println("")
 }
