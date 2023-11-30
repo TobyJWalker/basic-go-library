@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"gorm.io/gorm"
 )
 
 // process command
-func processCommand(command string) {
+func processCommand(command string, db *gorm.DB) {
 
 	// parse command
 	parsed_command := parseCommand(command)
@@ -62,7 +64,7 @@ func help() {
 
 // exit function
 func exit() {
-	
+
 	// exit msg
 	fmt.Println("\nThank you for using the library!")
 	fmt.Println("")

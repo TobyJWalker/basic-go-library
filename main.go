@@ -40,7 +40,7 @@ func main() {
 		command := getCommand()
 
 		// process the command
-		processCommand(command)
+		processCommand(command, db)
 	}
 
 }
