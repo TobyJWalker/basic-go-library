@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -17,6 +18,9 @@ func processCommand(command string) {
 
 	case "help":
 		help()
+
+	case "exit":
+		exit()
 
 	default:
 		// print error message
@@ -54,4 +58,15 @@ func help() {
 	fmt.Println("checkin - checkin a book")
 	fmt.Println("exit - exit the program")
 	fmt.Println("")
+}
+
+// exit function
+func exit() {
+	
+	// exit msg
+	fmt.Println("\nThank you for using the library!")
+	fmt.Println("")
+
+	// exit program
+	os.Exit(0)
 }
