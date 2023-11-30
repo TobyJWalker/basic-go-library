@@ -70,6 +70,19 @@ func processCommand(command string, db *gorm.DB) {
 			checkoutBook(db, parsed_command[1])
 		}
 
+	case "checkin":
+		// check for book name
+		if len(parsed_command) < 2 {
+			// print error message
+			fmt.Println("Missing book name. Try 'checkin <book>'.")
+		} else if parsed_command[2] != "" {
+			// print error message
+			fmt.Println("Too many arguments. Try 'checkin <book>'.")
+		} else {
+			// checkin book
+			checkinBook(db, parsed_command[1])
+		}
+
 	default:
 		// print error message
 		fmt.Println("Invalid command. Type 'help' for a list of commands.")
@@ -286,6 +299,50 @@ func checkoutBook(db *gorm.DB, book_name string) {
 	} else {
 		// print error message
 		fmt.Println("\nUnable to check out book.")
+		fmt.Println("")
+	}
+
+}
+
+// check in book function
+func checkinBook(db *gorm.DB, book_name string) {
+
+	// init book object
+	var book Book
+
+	// get book from database
+	result := db.Where("title = ?", book_name).First(&book)
+
+	// check for errors
+	if result.Error != nil {
+		// print error message
+		fmt.Println("\nUnable to find book.")
+		fmt.Println("")
+		return
+	}
+
+	// check if book is already checked in
+	if !book.CheckedOut {
+		// print error message
+		fmt.Println("\nBook is already checked in.")
+		fmt.Println("")
+		return
+	}
+
+	// set checked out status
+	book.CheckedOut = false
+
+	// update book in database
+	result = db.Save(&book)
+
+	// check for errors
+	if result.Error == nil {
+		// print success message
+		fmt.Println("\nBook checked in successfully!")
+		fmt.Println("")
+	} else {
+		// print error message
+		fmt.Println("\nUnable to check in book.")
 		fmt.Println("")
 	}
 
