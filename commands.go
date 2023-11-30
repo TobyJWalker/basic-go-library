@@ -24,6 +24,9 @@ func processCommand(command string, db *gorm.DB) {
 	case "exit":
 		exit()
 
+	case "add":
+		addBook(db)
+
 	default:
 		// print error message
 		fmt.Println("Invalid command. Type 'help' for a list of commands.")
@@ -53,7 +56,7 @@ func help() {
 	fmt.Println("\nAvailable commands:")
 	fmt.Println("\nhelp - display this message")
 	fmt.Println("list - list all books")
-	fmt.Println("create - add a book")
+	fmt.Println("add - add a book")
 	fmt.Println("view <book> - view book information")
 	fmt.Println("delete <book> - delete a book")
 	fmt.Println("checkout - checkout a book")
@@ -71,4 +74,36 @@ func exit() {
 
 	// exit program
 	os.Exit(0)
+}
+
+// add book function
+func addBook(db *gorm.DB) {
+
+	// init vars
+	var book_title string
+	var book_author string
+	var book_pages int
+
+	// get book info
+	book_title, book_author, book_pages = getBookInfo()
+
+	// create book object
+	book := Book{
+		title: book_title, 
+		author: book_author, 
+		page_count: book_pages,
+	}
+
+	// add book to database
+	result := db.Create(&book)
+
+	// print success message
+	if result.Error == nil {
+		fmt.Println("\nBook added successfully!")
+		fmt.Println("")
+	} else {
+		fmt.Println("\nError adding book.")
+		fmt.Println("")
+	}
+
 }
