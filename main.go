@@ -80,3 +80,20 @@ func getCommand() string {
 
 	return command
 }
+
+// get book information
+func getBookInfo() (string, string, int) {
+	var title string
+	var author string
+	var page_count int
+
+	fmt.Print("\nTitle: ")
+	fmt.Scanln(&title)
+	fmt.Print("Author: ")
+	fmt.Scanln(&author)
+	fmt.Print("Page Count: ")
+	fmt.Scanln(&page_count)
+	fmt.Println("")
+
+	return title, author, page_count
+}
