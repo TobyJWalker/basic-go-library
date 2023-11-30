@@ -42,6 +42,19 @@ func processCommand(command string, db *gorm.DB) {
 			// delete book
 			deleteBook(db, parsed_command[1])
 		}
+	
+	case "view":
+		// check for book name
+		if len(parsed_command) < 2 {
+			// print error message
+			fmt.Println("Missing book name. Try 'view <book>'.")
+		} else if parsed_command[2] != "" {
+			// print error message
+			fmt.Println("Too many arguments. Try 'view <book>'.")
+		} else {
+			// view book
+			viewBook(db, parsed_command[1])
+		}
 
 	default:
 		// print error message
@@ -172,4 +185,39 @@ func deleteBook(db *gorm.DB, book_name string) {
 		fmt.Println("\nUnable to delete book.")
 		fmt.Println("")
 	}
+}
+
+// view book function
+func viewBook(db *gorm.DB, book_name string) {
+
+	// init book object
+	var book Book
+
+	// get book from database
+	result := db.Where("title = ?", book_name).First(&book)
+
+	// check for errors
+	if result.Error != nil {
+		// print error message
+		fmt.Println("\nUnable to find book.")
+		fmt.Println("")
+		return
+	}
+
+	// print book info
+	fmt.Println("\nBook:")
+	fmt.Printf("Title: %s\n", book.Title)
+	fmt.Printf("Author: %s\n", book.Author)
+	fmt.Printf("Pages: %d\n", book.PageCount)
+	
+	// print checked out status
+	if book.CheckedOut {
+		fmt.Println("Checked Out: Yes")
+		fmt.Printf("Checked Out Date: %s\n", book.CheckedOutDate)
+	} else {
+		fmt.Println("Checked Out: No")
+	}
+
+	fmt.Println("")
+
 }
