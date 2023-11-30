@@ -85,6 +85,8 @@ func getCommand() string {
 
 // get book information
 func getBookInfo() (string, string, int) {
+
+	// init vars
 	var title string
 	var author string
 	var page_count int
@@ -92,6 +94,7 @@ func getBookInfo() (string, string, int) {
 	// create scanner object (needed for reading multiple words)
 	scanner := bufio.NewScanner(os.Stdin)
 
+	// get book info
 	fmt.Print("\nTitle: ")
 	scanner.Scan()
 	title = scanner.Text()
@@ -105,5 +108,6 @@ func getBookInfo() (string, string, int) {
 
 	fmt.Println("")
 
+	// return book info
 	return title, author, page_count
 }
