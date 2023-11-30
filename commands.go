@@ -145,14 +145,22 @@ func listBooks(db *gorm.DB) {
 	var books []Book
 
 	// get books from database
-	db.Find(&books)
+	result := db.Find(&books)
 
-	// print books
-	fmt.Println("\nBooks:")
-	for i, book := range books {
-		fmt.Printf("%d: %s\n", i + 1, book.Title)
+	// check length of books array
+	if result.RowsAffected == 0 {
+		// print error message
+		fmt.Println("\nNo books found.")
+		fmt.Println("")
+	} else {
+
+		// print books
+		fmt.Println("\nBooks:")
+		for i, book := range books {
+			fmt.Printf("%d: %s\n", i + 1, book.Title)
+		}
+		fmt.Println("")
 	}
-	fmt.Println("")
 }
 
 // delete book function
