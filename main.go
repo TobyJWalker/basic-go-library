@@ -51,7 +51,7 @@ func main() {
 func connectDB() *gorm.DB {
 
 	// attempt to connect to in-memory sqlite database
-	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("go_library.sqlite"), &gorm.Config{})
 
 	// check for errors
 	if err != nil {
